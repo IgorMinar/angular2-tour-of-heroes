@@ -30,7 +30,7 @@
 1. Install npm packages
 
 	```bash
-	npm install --save angular2 systemjs traceur
+	npm install --save angular2 systemjs
 	```
 
 1. Make a source folder
