@@ -10,13 +10,18 @@
     "postinstall": "npm run tsd",
     "tsd": "tsd link --config src/tsd.json",
     "tsc": "tsc -p src -w",
-    "start": "live-server --open=src"
+    "start": "live-server --open=src",
+    "test": "karma start"
   },
   "dependencies": {
     "angular2": "2.0.0-alpha.38",
     "systemjs": "0.19.2"
   },
   "devDependencies": {
+    "jasmine-core": "2.3.4",
+    "karma": "0.13.10",
+    "karma-chrome-launcher": "0.2.0",
+    "karma-jasmine": "0.3.6",
     "live-server": "0.8.1",
     "tsd": "0.6.5-beta.2",
     "typescript": "1.6.2"
