@@ -1,6 +1,11 @@
 {
   "name": "angular2-tour-of-heroes",
   "version": "0.0.1",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/johnpapa/angular2-tour-of-heroes.git"
+  },
   "scripts": {
     "postinstall": "npm run tsd",
     "tsd": "tsd link --config src/tsd.json",
