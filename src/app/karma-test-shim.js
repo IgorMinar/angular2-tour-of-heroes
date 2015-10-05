@@ -15,28 +15,40 @@ System.config({
   //baseURL: '/base/src/',   // TODO: can't set baseURL because it would break bundled named modules
   //defaultJSExtensions: true, // TODO: deprecated option, can we get rid of it?
   map: {
-    'app': 'base/src/app',
+    //'app': 'base/src/app',
+    //'angular2': '../../angular2'
   },
   packages: {
     //'angular2': {defaultExtension: false},
     //'@reactivex': {defaultExtension: false},
-    'app': {defaultExtension: false} // we need this so that relative paths under app resolve with app as base
+    'base/src/app': {
+      defaultExtension: false,
+      format: 'register',
+      map: {
+        //".": "/base/src/xapp/"
+        './hero.service.spec': 'base/src/app/hero.service.spec.js?' + window.__karma__.files['/base/src/app/hero.service.spec.js'],
+        './hero.service': 'base/src/app/hero.service.js?' + window.__karma__.files['/base/src/app/hero.service.js'],
+        './heroes.component': 'base/src/app/heroes.component.js?' + window.__karma__.files['/base/src/app/heroes.component.js']
+      }} // we need this so that relative paths under app resolve with app as base
               // for some reason empty object {}, sets defaultExtension to 'js'
     },
   // paths: {
   //   '/base/src/app/hero.service.spec': '/base/src/app/hero.service.spec.jsxx?' + window.__karma__.files['/base/src/app/hero.service.spec.js']
   // }
-  // paths: {
-  //   'base/src/app/hero.service.spec': 'base/src/app/hero.service.spec.js?' + window.__karma__.files['/base/src/app/hero.service.spec.js']
-  // }
-  paths: Object.keys(window.__karma__.files).
-            filter(onlyAppFiles).
-            reduce(function createPathRecords(pathsMapping, appPath, index) {
-              var moduleName = appPath.replace(/^\//, '').replace(/\.js$/, '');
-              pathsMapping[moduleName] = appPath + '?' + window.__karma__.files[appPath]
-              if (index === 10) console.log(pathsMapping)
-              return pathsMapping;
-            }, {})
+  paths: {
+    //'base/src/app/hero.service.spec': 'base/src/app/hero.service.spec.js?' + window.__karma__.files['/base/src/app/hero.service.spec.js'],
+    //'base/src/app/hero.service': 'base/src/app/hero.service.js?' + window.__karma__.files['/base/src/app/hero.service.js'],
+    'base/src/app/heroes.component.spec': 'base/src/app/heroes.component.spec.js?' + window.__karma__.files['/base/src/app/heroes.component.spec.js'],
+    // 'base/src/app/heroes.component': 'base/src/app/heroes.component.js?' + window.__karma__.files['/base/src/app/heroes.component.js']
+  }
+  // paths: Object.keys(window.__karma__.files).
+  //           filter(onlyAppFiles).
+  //           reduce(function createPathRecords(pathsMapping, appPath, index) {
+  //             var moduleName = appPath.replace(/^\//, '').replace(/\.js$/, '');
+  //             pathsMapping[moduleName] = appPath + '?' + window.__karma__.files[appPath]
+  //             if (index === 10) console.log(pathsMapping)
+  //             return pathsMapping;
+  //           }, {})
 
 });
 
@@ -61,7 +73,8 @@ System.import('angular2/src/core/dom/browser_adapter').then(function(browser_ada
 
 function filePath2moduleName(filePath) {
   return filePath.
-           replace(/^\/base\/src\//, '').   // remove prefix
+           //replace(/^\/base\/src\//, '').   // remove prefix
+           replace(/^\//, '').
            replace(/\.\w+$/, '');           // remove suffix
 }
 

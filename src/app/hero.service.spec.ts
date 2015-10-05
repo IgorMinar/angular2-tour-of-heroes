@@ -11,4 +11,9 @@ describe('HereService', () => {
     expect(true).toBe(false);
   });
 
+
+  it('should import HeroService', () => {
+    expect(HeroService).not.toBeUndefined();
+  });
+
 });
