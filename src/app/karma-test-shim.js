@@ -26,17 +26,17 @@ System.config({
   // paths: {
   //   '/base/src/app/hero.service.spec': '/base/src/app/hero.service.spec.jsxx?' + window.__karma__.files['/base/src/app/hero.service.spec.js']
   // }
-  paths: {
-    'base/src/app/hero.service.spec': 'base/src/app/hero.service.spec.js?' + window.__karma__.files['/base/src/app/hero.service.spec.js']
-  }
-  // Object.keys(window.__karma__.files).
-  //           filter(onlyAppFiles).
-  //           reduce(function createPathRecords(pathsMapping, appPath, index) {
-  //             var moduleName = appPath.replace(/\.js$/, '');
-  //             pathsMapping[moduleName] = appPath + 'xxx?yyyh' + window.__karma__.files[appPath]
-  //             if (index === 10) console.log(pathsMapping)
-  //             return pathsMapping;
-  //           }, {})
+  // paths: {
+  //   'base/src/app/hero.service.spec': 'base/src/app/hero.service.spec.js?' + window.__karma__.files['/base/src/app/hero.service.spec.js']
+  // }
+  paths: Object.keys(window.__karma__.files).
+            filter(onlyAppFiles).
+            reduce(function createPathRecords(pathsMapping, appPath, index) {
+              var moduleName = appPath.replace(/^\//, '').replace(/\.js$/, '');
+              pathsMapping[moduleName] = appPath + '?' + window.__karma__.files[appPath]
+              if (index === 10) console.log(pathsMapping)
+              return pathsMapping;
+            }, {})
 
 });
 
