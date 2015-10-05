@@ -20,4 +20,4 @@ export var Routes = {
 	}
 };
 
-export const APP_ROUTES = [this.Routes.dashboard, this.Routes.detail, this.Routes.heroes];
+export const APP_ROUTES = [Routes.dashboard, Routes.detail, Routes.heroes];
