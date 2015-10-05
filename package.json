@@ -18,13 +18,11 @@
     "systemjs": "0.19.2"
   },
   "devDependencies": {
-    "es6-module-loader": "0.17.8",
     "jasmine-core": "2.3.4",
     "karma": "0.13.10",
     "karma-chrome-launcher": "0.2.0",
     "karma-jasmine": "0.3.6",
     "karma-sourcemap-loader": "0.3.5",
-    "karma-systemjs": "0.8.0",
     "live-server": "0.8.1",
     "systemjs": "0.19.2",
     "tsd": "0.6.5-beta.2",
