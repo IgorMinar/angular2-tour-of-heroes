@@ -4,7 +4,7 @@ console.log('Entering karma-test-shim.js');
 Error.stackTraceLimit=Infinity;
 
 
-//jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000;
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000;
 
 // // Cancel Karma's synchronous start,
 // // we will call `__karma__.start()` later, once all the specs are loaded.
@@ -18,13 +18,25 @@ System.config({
     'app': 'base/src/app',
   },
   packages: {
-    'angular2': {defaultExtension: false},
-    '@reactivex': {defaultExtension: false},
-    //'app': {}
-  },
+    //'angular2': {defaultExtension: false},
+    //'@reactivex': {defaultExtension: false},
+    'app': {defaultExtension: false} // we need this so that relative paths under app resolve with app as base
+              // for some reason empty object {}, sets defaultExtension to 'js'
+    },
+  // paths: {
+  //   '/base/src/app/hero.service.spec': '/base/src/app/hero.service.spec.jsxx?' + window.__karma__.files['/base/src/app/hero.service.spec.js']
+  // }
   paths: {
-    'base/src/app/hero.service.spec': 'base/src/app/hero.service.spec.js?sdfsdf'
+    'base/src/app/hero.service.spec': 'base/src/app/hero.service.spec.js?' + window.__karma__.files['/base/src/app/hero.service.spec.js']
   }
+  // Object.keys(window.__karma__.files).
+  //           filter(onlyAppFiles).
+  //           reduce(function createPathRecords(pathsMapping, appPath, index) {
+  //             var moduleName = appPath.replace(/\.js$/, '');
+  //             pathsMapping[moduleName] = appPath + 'xxx?yyyh' + window.__karma__.files[appPath]
+  //             if (index === 10) console.log(pathsMapping)
+  //             return pathsMapping;
+  //           }, {})
 
 });
 
@@ -51,9 +63,11 @@ function filePath2moduleName(filePath) {
   return filePath.
            replace(/^\/base\/src\//, '').   // remove prefix
            replace(/\.\w+$/, '');           // remove suffix
+}
 
 
-
+function onlyAppFiles(filePath) {
+  return /^\/base\/src\/app\/.*\.js$/.test(filePath)
 }
 
 
