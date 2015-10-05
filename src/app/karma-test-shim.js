@@ -13,14 +13,19 @@ __karma__.loaded = function() {};
 
 System.config({
   //baseURL: '/base/src/',   // TODO: can't set baseURL because it would break bundled named modules
-  defaultJSExtensions: true, // TODO: deprecated option, can we get rid of it?
-  packages: {
-    'angular2': {defaultExtension: false},
-    '@reactivex': {defaultExtension: false}
-    },
+  //defaultJSExtensions: true, // TODO: deprecated option, can we get rid of it?
   map: {
     'app': 'base/src/app',
+  },
+  packages: {
+    'angular2': {defaultExtension: false},
+    '@reactivex': {defaultExtension: false},
+    //'app': {}
+  },
+  paths: {
+    'base/src/app/hero.service.spec': 'base/src/app/hero.service.spec.js?sdfsdf'
   }
+
 });
 
 System.import('angular2/src/core/dom/browser_adapter').then(function(browser_adapter) {

@@ -21,7 +21,6 @@ describe('HeroesComponent (with Angular)', () => {
 
   it('can be created and has userName', inject([TestComponentBuilder, AsyncTestCompleter], (tcb: TestComponentBuilder, async) => {
 
-    debugger;
     tcb.createAsync(HeroesComponent)
         .then((rootTestComponent: RootTestComponent) => {
           console.log('component created')
@@ -32,3 +31,4 @@ describe('HeroesComponent (with Angular)', () => {
         }).then(async.done, async.done.fail);
   }));
 });
+
