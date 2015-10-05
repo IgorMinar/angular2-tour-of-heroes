@@ -1,6 +1,4 @@
-console.log('Entering karma-test-shim.js');
-
-// // Tun on full stack traces in errors to help debugging
+// Tun on full stack traces in errors to help debugging
 Error.stackTraceLimit=Infinity;
 
 
@@ -12,44 +10,22 @@ __karma__.loaded = function() {};
 
 
 System.config({
-  //baseURL: '/base/src/',   // TODO: can't set baseURL because it would break bundled named modules
-  //defaultJSExtensions: true, // TODO: deprecated option, can we get rid of it?
-  map: {
-    //'app': 'base/src/app',
-    //'angular2': '../../angular2'
-  },
   packages: {
-    //'angular2': {defaultExtension: false},
-    //'@reactivex': {defaultExtension: false},
     'base/src/app': {
       defaultExtension: false,
       format: 'register',
-      map: {
-        //".": "/base/src/xapp/"
-        './hero.service.spec': 'base/src/app/hero.service.spec.js?' + window.__karma__.files['/base/src/app/hero.service.spec.js'],
-        './hero.service': 'base/src/app/hero.service.js?' + window.__karma__.files['/base/src/app/hero.service.js'],
-        './heroes.component': 'base/src/app/heroes.component.js?' + window.__karma__.files['/base/src/app/heroes.component.js']
-      }} // we need this so that relative paths under app resolve with app as base
-              // for some reason empty object {}, sets defaultExtension to 'js'
-    },
-  // paths: {
-  //   '/base/src/app/hero.service.spec': '/base/src/app/hero.service.spec.jsxx?' + window.__karma__.files['/base/src/app/hero.service.spec.js']
-  // }
-  paths: {
-    //'base/src/app/hero.service.spec': 'base/src/app/hero.service.spec.js?' + window.__karma__.files['/base/src/app/hero.service.spec.js'],
-    //'base/src/app/hero.service': 'base/src/app/hero.service.js?' + window.__karma__.files['/base/src/app/hero.service.js'],
-    'base/src/app/heroes.component.spec': 'base/src/app/heroes.component.spec.js?' + window.__karma__.files['/base/src/app/heroes.component.spec.js'],
-    // 'base/src/app/heroes.component': 'base/src/app/heroes.component.js?' + window.__karma__.files['/base/src/app/heroes.component.js']
-  }
-  // paths: Object.keys(window.__karma__.files).
-  //           filter(onlyAppFiles).
-  //           reduce(function createPathRecords(pathsMapping, appPath, index) {
-  //             var moduleName = appPath.replace(/^\//, '').replace(/\.js$/, '');
-  //             pathsMapping[moduleName] = appPath + '?' + window.__karma__.files[appPath]
-  //             if (index === 10) console.log(pathsMapping)
-  //             return pathsMapping;
-  //           }, {})
+      map: Object.keys(window.__karma__.files).
+            filter(onlyAppFiles).
+            reduce(function createPathRecords(pathsMapping, appPath) {
+              // creates local module name mapping to global path with karma's fingerprint in path, e.g.:
+              // './hero.service': '/base/src/app/hero.service.js?f4523daf879cfb7310ef6242682ccf10b2041b3e'
+              var moduleName = appPath.replace(/^\/base\/src\/app\//, './').replace(/\.js$/, '');
+              pathsMapping[moduleName] = appPath + '?' + window.__karma__.files[appPath]
+              return pathsMapping;
+            }, {})
 
+      }
+    }
 });
 
 System.import('angular2/src/core/dom/browser_adapter').then(function(browser_adapter) {
@@ -60,7 +36,7 @@ System.import('angular2/src/core/dom/browser_adapter').then(function(browser_ada
     .filter(onlySpecFiles)
     .map(filePath2moduleName)        // Normalize paths to module names.
     .map(function(moduleName) {
-      console.log(`>>> loading spec file: System.import('${moduleName}')`);
+      // loads all spec files via their global module names (e.g. 'base/src/app/hero.service.spec')
       return System.import(moduleName);
     }));
 })
@@ -73,8 +49,7 @@ System.import('angular2/src/core/dom/browser_adapter').then(function(browser_ada
 
 function filePath2moduleName(filePath) {
   return filePath.
-           //replace(/^\/base\/src\//, '').   // remove prefix
-           replace(/^\//, '').
+           replace(/^\//, '').              // remove / prefix
            replace(/\.\w+$/, '');           // remove suffix
 }
 
