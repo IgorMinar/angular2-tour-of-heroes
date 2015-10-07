@@ -7,7 +7,7 @@ describe('HereService', () => {
   });
 
 
-  it('should fail', () => {
+  it('should intentionally fail so that we see an error message, stack trace, etc', () => {
     expect(true).toBe(false);
   });
 
